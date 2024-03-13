@@ -3,7 +3,7 @@
  
 Este es nuestro proyecto **Práctica Creativa 2** del curso 2023-2024 de la asignatura de CDPS. 
 
-Creación de un escenario completo de despliegue de una aplicación fiable y escalable que integre los diversos contenidos impartidos en la asignatura. Para ello se usarán múltiples tecnologías. Esta práctica está orientada a afianzar los conocimientos adquiridos a lo largo de la asignatura con respecto a los temas relacionados, con el despliegue de aplicaciones en la nube y aplicaciones basadas en microservicios utilizando Docker y Kubernetes. Para ello, se define cinco grandes bloques.
+Creación de un escenario completo de despliegue de una aplicación fiable y escalable que integre los diversos contenidos impartidos en la asignatura. Para ello se usarán múltiples tecnologías. Esta práctica está orientada a afianzar los conocimientos adquiridos a lo largo de la asignatura con respecto a los temas relacionados, con el despliegue de aplicaciones en la nube y aplicaciones basadas en microservicios utilizando Docker y Kubernetes. Para ello, se definen cinco grandes bloques.
 
 - Despliegue de una aplicación monolítica en una máquina virtual en google cloud.
 - Despliegue de una aplicación monolítica usando docker.
