@@ -1,0 +1,31 @@
+Pasos para arrancarla:
+
+Trabajaremos con GKE ya que tiene instalado Helm de manera predeterminada.
+Para poder desarrollar el proyecto realizaremos lo siguiente:
+
+
+helm create <nombre que queramos, por ejemplo: prueba>
+cd prueba
+
+Una vez realizado esto, helm ya habrá creado de manera automática todo lo necesario para lanzar la aplicación si quisiéramos con Kubernetes. Dentro encontraríamos los archivos:
+- Charts
+- Charts.yaml
+- Templates
+- values.yaml
+
+Una vez copiados dentro de la carpeta templates todos los YAML de nuestra aplicación y editado el archivo de values.yaml para saber desde que repositorio debe arrancar la misma y en qué puerto debe hacerlo; ejecutaremos lo siguiente dentro del directorio de prueba:
+
+helm install prueba .
+
+Esperaremos a que la aplicación sea lanzada y podremos visualizarla desde nuestro navegador desde la IP externa que nos dé el balanceado de cargas.
+Podemos visualizar qué IP es mediante:
+
+kubectl get services
+
+Y podemos visualizarlo todo desde el navegador con: 
+
+http://<IP externa>:9080/productage
+
+Por último para borrar todo:
+
+kubectl delete --all deployments && kubectl delete --all pods && kubectl delete --all services

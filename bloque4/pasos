@@ -1,0 +1,16 @@
+
+
+
+#Comando para borrar#
+
+kubectl delete --all deployments && kubectl delete --all pods && kubectl delete --all services
+
+# Hago los deployments y servicios      luego lo puedo ver con kubectl get deployments, un get services o un get all
+kubectl apply -f productpage.yaml
+kubectl apply -f details.yaml
+kubectl apply -f ratings.yaml
+kubectl apply -f reviews.yaml
+
+# http://<IP_Load_Balancer>:9080/productpage
+# Se ve la aplicación bien aunque solo la version 3 hardcoded!
+

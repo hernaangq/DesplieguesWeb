@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+ 
+ productpage:
+    build:
+      context: .
+      dockerfile: dockerfile_productpage
+    image: 16/productpage 
+    container_name: 16-productpage
+    ports:
+     - '9080:9080'
+    environment:
+     - GROUP_NUMBER=16
+    volumes:
+     - vol-productpage:/home/hernangarqui/volumes/productpage
+
+ details:
+    build:
+      context: .
+      dockerfile: dockerfile_details
+    image: 16/details
+    container_name: 16-details
+    ports:
+     - '9080'
+    environment:
+     - ENABLE_EXTERNAL_BOOK_SERVICE=true
+     - SERVICE_VERSION=v1
+    volumes:
+     - vol-details:/home/hernangarqui/volumes/details
+
+ reviews:
+    build:
+      context: practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg
+    image: 16/reviews
+    container_name: 16-reviews
+    ports:
+     - '9080'
+    environment:
+     - ENABLE_RATINGS=true  #true para v2 y v3; false para v1 
+     - STAR_COLOR=red     #red para v3; black para v1 y v2
+     - SERVICE_VERSION=v3   #v1 o v2 o v3 
+    volumes:
+     - vol-reviews:/home/hernangarqui/volumes/reviews
+
+ ratings:
+    build:
+      context: .
+      dockerfile: dockerfile_ratings
+    image: 16/ratings
+    container_name: 16-ratings
+    ports:
+     - '9080'
+    environment:
+     - SERVICE_VERSION=v1
+    volumes:
+     - vol-ratings:/home/hernangarqui/volumes/ratings
+volumes:
+  vol-productpage:
+  vol-details:
+  vol-reviews:
+  vol-ratings:
