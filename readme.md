@@ -1,141 +1,157 @@
-# CDPS - Práctica Creativa 2 
-# Hernán García Quijano & Eric Ordás Martín & Luis Núñez Casal
- 
-Este es nuestro proyecto **Práctica Creativa 2** del curso 2023-2024 de la asignatura de CDPS. 
+# WebDeployments
+### Hernán García Quijano · Eric Ordás Martín · Luis Núñez Casal
 
-Creación de un escenario completo de despliegue de una aplicación fiable y escalable que integre los diversos contenidos impartidos en la asignatura. Para ello se usarán múltiples tecnologías. Esta práctica está orientada a afianzar los conocimientos adquiridos a lo largo de la asignatura con respecto a los temas relacionados, con el despliegue de aplicaciones en la nube y aplicaciones basadas en microservicios utilizando Docker y Kubernetes. Para ello, se definen cinco grandes bloques.
+This is our **Creative Project 2** from the 2023–2024 **CDPS** course (Design and Deployment of Distributed Systems) at **ETSIT‑UPM**.
 
-- Despliegue de una aplicación monolítica en una máquina virtual en google cloud.
-- Despliegue de una aplicación monolítica usando docker.
-- Segmentación de una aplicación monolítica en microservicios utilizando docker-compose.
-- Despliegue de una aplicación basada en microservicios utilizando Kubernetes.
-- Despliegue de una aplicación basada en microservicios utilizando Helm Charts.
+---
 
+## 🌐 Full Application Deployment Scenario
 
-# **1. Despliegue de la aplicación en máquina virtual pesada**
-Pasos para arrancarla:
-Lo primero será crear una instancia de VM en Google Cloud, configurando una regla FW que permita todo tipo de tráfico.
+We developed a complete scenario to deploy a **reliable and scalable application**, integrating key topics from the course. The project consolidates knowledge in **cloud-based deployments** and **microservices architectures** using **Docker** and **Kubernetes**.
 
-~~~
+The deployment is organized into five major blocks:
+
+- Deployment of a monolithic application on a Google Cloud virtual machine.
+- Deployment of a monolithic application using Docker.
+- Segmentation of a monolithic app into microservices with Docker Compose.
+- Deployment of a microservices-based app using Kubernetes.
+- Deployment of the same system with **Helm Charts**.
+
+---
+
+## 🧱 1. Monolithic App on Google Cloud VM
+
+**Steps:**
+
+1. Create a new VM instance in Google Cloud.
+2. Configure a firewall rule to allow all traffic.
+
+```bash
 cd bloque1
 python3 bloque1.py arrancar
-~~~
-Así nuestra aplicación ya estará corriendo en la IP externa de la máquina en el puerto 9080.
+````
 
-En caso de que queramos especificar otro puerto distinto usaremos lo siguiente:
-~~~
-python3 bloque1.py arrancarPuerto [puerto]
-~~~
+The app will run at the external IP on port `9080`.
 
-Para destruir el escenario usaremos:
-~~~
+Use this to specify a custom port:
+
+```bash
+python3 bloque1.py arrancarPuerto [port]
+```
+
+To destroy the setup:
+
+```bash
 python3 bloque1.py liberar
-~~~
+```
 
-# **2. Despliegue de una aplicación monolítica usando docker**
-Pasos para arrancarla:
-Al igual que en el bloque 1, lo primero será crear una instancia de VM en Google Cloud, configurando una regla FW que permita todo tipo de tráfico. Podemos utilizar la misma instancia que tenemos para el bloque 1 si procede.
+---
 
-~~~
+## 🐳 2. Monolithic App with Docker
+
+You can reuse the VM from Block 1.
+
+```bash
 cd bloque2
 python3 bloque2.py crear
-~~~
-Así nuestra aplicación ya estará creada. Posteriormente, la arrancaremos para poder verla en la IP externa. De esta forma debería ser visible desde un navegador.
-
-~~~
 python3 bloque2.py arrancar
-~~~
+```
 
-Para destruir el escenario usaremos:
-~~~
+To tear it down:
+
+```bash
 python3 bloque2.py liberar
-~~~
+```
 
+---
 
-# **3. Segmentación de una aplicación monolítica en microservicios utilizando docker-compose**
-Pasos para arrancarla:
-Al igual que en el bloque 1 y 2, lo primero será crear una instancia de VM en Google Cloud, configurando una regla FW que permita todo tipo de tráfico. Podemos utilizar la misma instancia que tenemos para el bloque 1 si procede.
+## 🔧 3. Microservices with Docker Compose
 
-~~~
+You can also reuse the VM from previous blocks.
+
+```bash
 cd bloque3
 python3 bloque3.py
-~~~
-Así nuestra aplicación ya estará corriendo en la IP externa de la máquina en el puerto 9080.
+```
 
+This will launch the microservices-based version of the application at the external IP on port `9080`.
 
-# **4. Despliegue de una aplicación basada en microservicios utilizando Kubernetes**
-Pasos para arrancarla:
-Lo primero será crear un Kubernetes Engine en Google Cloud.
-Después:
-~~~
+---
+
+## ☸️ 4. Microservices with Kubernetes (GKE)
+
+1. Create a **Kubernetes Engine** cluster on Google Cloud.
+
+2. Apply all necessary manifests:
+
+```bash
 cd bloque4
 kubectl apply -f productpage.yaml
 kubectl apply -f details.yaml
 kubectl apply -f ratings.yaml
 kubectl apply -f reviews-svc.yaml
-kubectl apply -f review-<version>-<tipo>.yaml
-~~~
-Usaremos el fichero yaml de v1, v2 o v3, dependiendo de cual versión queramos usar
+kubectl apply -f review-<version>-<type>.yaml
+```
 
-Para comprobar que los distintos servicios y deployments se han cargado correctamente, podemos usar el siguiente comando:
-~~~
+To check services and deployments:
+
+```bash
 kubectl get all
-~~~
+```
 
-Y en caso de que queramos liberar el escenario usaremos:
-~~~
+To delete the environment:
+
+```bash
 kubectl delete --all deployments && kubectl delete --all pods && kubectl delete --all services
-~~~
+```
 
-Así nuestra aplicación ya estará corriendo en la IP externa de la máquina en el puerto 9080.
+---
 
+## ⚙️ \[Optional] Deployment with Helm Charts
 
-# **Opcional. Despliegue de la aplicación con Helm Charts**
-Pasos para arrancarla:
+Helm is already available in GKE.
 
-Trabajaremos con GKE ya que tiene instalado Helm de manera predeterminada.
-Para poder desarrollar el proyecto realizaremos lo siguiente:
+Steps:
 
-~~~
-helm create <nombre que queramos, por ejemplo: prueba>
+```bash
+helm create prueba
 cd prueba
-~~~
-Una vez realizado esto, helm ya habrá creado de manera automática todo lo necesario para lanzar la aplicación si quisiéramos con Kubernetes. Dentro encontraríamos los archivos:
-- Charts
-- Charts.yaml
-- Templates
-- values.yaml
+```
 
-Una vez copiados dentro de la carpeta templates todos los YAML de nuestra aplicación y editado el archivo de values.yaml para saber desde que repositorio debe arrancar la misma y en qué puerto debe hacerlo; ejecutaremos lo siguiente dentro del directorio de prueba:
+* Copy all your YAML manifests into the `templates` directory.
+* Edit `values.yaml` to set the image repo and target port.
 
-~~~
+To deploy:
+
+```bash
 helm install prueba .
-~~~
+```
 
-Esperaremos a que la aplicación sea lanzada y podremos visualizarla desde nuestro navegador desde la IP externa que nos dé el balanceado de cargas.
-Podemos visualizar qué IP es mediante:
-~~~
+To get the external IP:
+
+```bash
 kubectl get services
-~~~
+```
 
-Y podemos visualizarlo todo desde el navegador con: 
+View in browser:
 
-~~~
-http://<IP externa>:9080/productage
-~~~
+```text
+http://<external-ip>:9080/productpage
+```
 
-Por último para borrar todo:
+To delete everything:
 
-~~~
+```bash
 kubectl delete --all deployments && kubectl delete --all pods && kubectl delete --all services
-~~~
+```
+
+---
+
+## 📬 Contact
+
+* **Hernán García Quijano**: [hernan.garcia.quijano@alumnos.upm.es](mailto:hernan.garcia.quijano@alumnos.upm.es)
+* **Eric Ordás Martín**: [e.ordar@alumnos.upm.es](mailto:e.ordar@alumnos.upm.es)
+* **Luis Núñez Casal**: [luisignacio.nunez@alumnos.upm.es](mailto:luisignacio.nunez@alumnos.upm.es)
 
 
-# **Información de contacto:**
-
-**Hernán García Quijano:** <hernan.garcia.quijano@alumnos.upm.es>
-
-**Eric Ordás Martín:** <e.ordar@alumnos.upm.es>
-
-**Luis Núñez Casal:** <luisignacio.nunez@alumnos.upm.es>
 
